@@ -1,0 +1,12 @@
+{
+  "name": "livets-lover-no",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test scripts/checkout.test.mjs",
+    "build": "node --check main.js && node --check product-config.js && npm run check && npm test"
+  }
+}
+

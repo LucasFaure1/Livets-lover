@@ -1,0 +1,15 @@
+export const productConfig = Object.freeze({
+  market: "NO",
+  locale: "nb-NO",
+  country: "NO",
+  brand: "Livets lover",
+  productName: "Murphys lov for barn",
+  baseUrl: "https://livets-lover.example",
+  checkoutUrl: "",
+  priceDisplay: "",
+  originalPriceDisplay: "",
+  discountDisplay: "",
+  savingsDisplay: "",
+  metaPixelId: "",
+  supportEmail: "",
+});

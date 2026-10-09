@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /
+
+Sitemap: https://livets-lover.example/sitemap.xml
+

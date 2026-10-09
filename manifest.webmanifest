@@ -1,0 +1,17 @@
+{
+  "name": "Murphys lov for barn",
+  "short_name": "Livets lover",
+  "lang": "nb-NO",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF9EE",
+  "theme_color": "#1E2A5A",
+  "icons": [
+    {
+      "src": "/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
