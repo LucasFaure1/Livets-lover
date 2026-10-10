@@ -60,5 +60,6 @@ test("four same-tab CTAs and five authorized testimonials", async () => {
  assert.equal(links.length, 4);
  assert.ok(links.every(([tag]) => tag.includes('href="' + productConfig.checkoutUrl + '"') && !tag.includes("target=")));
  assert.equal([...html.matchAll(/<figure class="testimonial">/g)].length, 5);
+ assert.deepEqual([...html.matchAll(/<figcaption><strong>([^<]+)<\/strong>/g)].map(match => match[1]), ["Ingrid Hansen", "Sofie Larsen", "Marius Johansen", "Camilla Nilsen", "Emma Berg"]);
  assert.doesNotMatch(html, /Pris kommer|checkout-pending|30 dagers|\.example/);
 });
