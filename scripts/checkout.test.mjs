@@ -10,6 +10,12 @@ test("preserves six campaign parameters without duplicates or loss of checkout p
  for (const key of attributionKeys) { assert.equal(result.searchParams.get(key), "ø space & value"); assert.equal(result.searchParams.getAll(key).length, 1); }
 });
 test("does not invent attribution", () => assert.equal(checkoutHref(productConfig.checkoutUrl, ""), productConfig.checkoutUrl));
+test("landing has no consent UI or active tracking entry point", async () => {
+ const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+ const main = await readFile(new URL("../main.js", import.meta.url), "utf8");
+ assert.doesNotMatch(html, /data-consent|consent-panel|Personverninnstillinger|facebook\.net/);
+ assert.doesNotMatch(main, /tracking\.js|setupConsent|startPixel|fbq/);
+});
 test("initializes one pixel and two page events only once", () => {
  const win = {}; const scripts = [];
  const doc = { createElement: () => ({}), head: { append: s => scripts.push(s) } };

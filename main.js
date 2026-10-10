@@ -1,6 +1,5 @@
 import { productConfig } from "./product-config.js";
 import { checkoutHref } from "./checkout.js";
-import { setupConsent } from "./tracking.js";
 
 (() => {
   if (window.__livetsLoverInitialized) return;
@@ -77,5 +76,4 @@ import { setupConsent } from "./tracking.js";
   setupCheckoutLinks();
   setupMobileBuyButton();
   preserveInternalAttribution();
-  setupConsent();
 })();

@@ -14,6 +14,6 @@ npm run build
 npm test
 
 ## Måling
-Meta lastes bare etter samtykke. PageView og ViewContent sendes én gang per sidevisning. Automatisk hendelsesoppsett er deaktivert. Ingen AddToCart (ingen lokal handlekurv), InitiateCheckout, Purchase eller CAPI fra denne landingen.
+Samtykkevarselet er fjernet etter kundens ønske. Landingssiden importerer ikke tracking.js og sender ingen Meta-hendelser, heller ikke for tidligere lagrede samtykker. Godkjent Pixel-ID beholdes i konfigurasjonen for en senere løsning. Checkout-måling endres ikke av denne oppdateringen.
 Se FUNNEL-QA.md for test av checkout og kjøp.
 Formelle selgeropplysninger og juridisk kvalitetssikring gjenstår.
