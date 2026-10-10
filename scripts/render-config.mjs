@@ -4,7 +4,15 @@ const root = new URL("../", import.meta.url);
 const file = new URL("index.html", root);
 let html = await readFile(file, "utf8");
 html = html.replace(/(<a[^>]*href=")[^"]*("[^>]*data-checkout-link)/g, (_, a, b) => a + config.checkoutUrl + b);
-html = html.replace(/(data-price-display>)[^<]*/g, "$1" + config.priceDisplay);
+html = html.replace(/(data-price-display>)[^<]*/g, (_, tag) => tag + config.priceDisplay);
+for (const [attribute, value] of [
+  ["data-original-price", config.originalPriceDisplay],
+  ["data-discount", config.discountDisplay],
+  ["data-savings", config.savingsDisplay],
+]) {
+  const pattern = new RegExp('(<(?:s|span|p)\\b[^>]*\\b' + attribute + ')(?: hidden)?(>)[^<]*', "g");
+  html = html.replace(pattern, (_, tag, close) => tag + (value ? "" : " hidden") + close + value);
+}
 for (const pattern of [/(<link rel="canonical" href=")[^"]*/g, /(<meta property="og:url" content=")[^"]*/g]) html = html.replace(pattern, "$1" + config.baseUrl + "/");
 html = html.replace(/(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*/g, "$1" + config.baseUrl + "/img/no/fem-boker-i-en-og-1200x630.jpg?v=nb-real-2");
 await writeFile(file, html);

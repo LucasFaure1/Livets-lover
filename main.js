@@ -29,7 +29,7 @@ import { startPixel } from "./tracking.js";
     });
     setText(
       ".price-history",
-      productConfig.savingsDisplay || "Engangsbetaling i amerikanske dollar (USD)",
+      productConfig.savingsDisplay || "Engangsbetaling.",
     );
 
     document.querySelectorAll("[data-support-email]").forEach((link) => {

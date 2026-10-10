@@ -10,6 +10,30 @@ test("preserves six campaign parameters without duplicates or loss of checkout p
  for (const key of attributionKeys) { assert.equal(result.searchParams.get(key), "ø space & value"); assert.equal(result.searchParams.getAll(key).length, 1); }
 });
 test("does not invent attribution", () => assert.equal(checkoutHref(productConfig.checkoutUrl, ""), productConfig.checkoutUrl));
+test("public price is the approved kr offer; payment tracking remains unchanged", async () => {
+ const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+ assert.equal(productConfig.priceDisplay, "171,92 kr");
+ assert.equal(productConfig.originalPriceDisplay, "344 kr");
+ assert.equal(productConfig.discountDisplay, "−50 %");
+ assert.equal(productConfig.savingsDisplay, "Du sparer 172 kr");
+ assert.equal(productConfig.price, 17.99);
+ assert.equal(productConfig.currency, "USD");
+ assert.equal([...html.matchAll(/data-price-display>171,92 kr</g)].length, 4);
+ assert.equal([...html.matchAll(/data-original-price>344 kr</g)].length, 3);
+ assert.equal([...html.matchAll(/data-discount>−50 %</g)].length, 2);
+ assert.equal([...html.matchAll(/data-savings>Du sparer 172 kr</g)].length, 2);
+ assert.doesNotMatch(html, /USD|US\$|amerikanske dollar|USdata-price-display/);
+});
+test("legal drafting notes remain only in HTML TODO comments", async () => {
+ for (const name of ["kjopsvilkar.html", "personvern.html"]) {
+  const html = await readFile(new URL("../" + name, import.meta.url), "utf8");
+  const visible = html.replace(/<!--[\s\S]*?-->/g, "");
+  assert.match(html, /<!-- TODO:/);
+  assert.doesNotMatch(visible, /Må kompletteres|må fortsatt kvalitetssikres|må fortsatt oppgis|ikke oppgitt|USD|amerikanske dollar/);
+ }
+ const privacy = await readFile(new URL("../personvern.html", import.meta.url), "utf8");
+ assert.ok(privacy.includes("Landingssiden bruker Meta-pikselen til å måle besøk og klikk til kassen, slik at vi kan måle effekten av annonsene våre. Kjøpet gjennomføres hos Impultienda, som har egne personvernopplysninger i kassen."));
+});
 test("landing keeps measurement active without the removed consent UI", async () => {
  const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
  const main = await readFile(new URL("../main.js", import.meta.url), "utf8");
