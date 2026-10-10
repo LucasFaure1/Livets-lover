@@ -1,5 +1,6 @@
 import { productConfig } from "./product-config.js";
 import { checkoutHref } from "./checkout.js";
+import { startPixel } from "./tracking.js";
 
 (() => {
   if (window.__livetsLoverInitialized) return;
@@ -76,4 +77,5 @@ import { checkoutHref } from "./checkout.js";
   setupCheckoutLinks();
   setupMobileBuyButton();
   preserveInternalAttribution();
+  if (document.querySelector("[data-hero]")) startPixel();
 })();

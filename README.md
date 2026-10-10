@@ -14,6 +14,6 @@ npm run build
 npm test
 
 ## Måling
-Samtykkevarselet er fjernet etter kundens ønske. Landingssiden importerer ikke tracking.js og sender ingen Meta-hendelser, heller ikke for tidligere lagrede samtykker. Godkjent Pixel-ID beholdes i konfigurasjonen for en senere løsning. Checkout-måling endres ikke av denne oppdateringen.
+Samtykkevarselet er fjernet etter kundens uttrykkelige ønske, men måling er aktivert. Landingssiden laster tracking.js og sender PageView og ViewContent automatisk én gang per sidelasting til godkjent Pixel-ID. Ingen kjøpshendelser fra landingssiden, og ingen måling fra de juridiske sidene. Checkout-måling endres ikke. Dette er en teknisk implementasjon, ikke en bekreftelse på juridisk etterlevelse; samtykkeløsning for annonsemåling i Norge gjenstår.
 Se FUNNEL-QA.md for test av checkout og kjøp.
 Formelle selgeropplysninger og juridisk kvalitetssikring gjenstår.

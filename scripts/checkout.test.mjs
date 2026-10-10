@@ -10,11 +10,13 @@ test("preserves six campaign parameters without duplicates or loss of checkout p
  for (const key of attributionKeys) { assert.equal(result.searchParams.get(key), "ø space & value"); assert.equal(result.searchParams.getAll(key).length, 1); }
 });
 test("does not invent attribution", () => assert.equal(checkoutHref(productConfig.checkoutUrl, ""), productConfig.checkoutUrl));
-test("landing has no consent UI or active tracking entry point", async () => {
+test("landing keeps measurement active without the removed consent UI", async () => {
  const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
  const main = await readFile(new URL("../main.js", import.meta.url), "utf8");
  assert.doesNotMatch(html, /data-consent|consent-panel|Personverninnstillinger|facebook\.net/);
- assert.doesNotMatch(main, /tracking\.js|setupConsent|startPixel|fbq/);
+ assert.match(main, /import \{ startPixel \} from "\.\/tracking\.js"/);
+ assert.match(main, /if \(document\.querySelector\("\[data-hero\]"\)\) startPixel\(\)/);
+ assert.doesNotMatch(main, /setupConsent/);
 });
 test("initializes one pixel and two page events only once", () => {
  const win = {}; const scripts = [];
@@ -22,6 +24,8 @@ test("initializes one pixel and two page events only once", () => {
  startPixel(win, doc); startPixel(win, doc);
  assert.equal(scripts.length, 1);
  const calls = win.fbq.queue.map(a => Array.from(a));
+ assert.equal(calls.filter(a => a[0] === "init").length, 1);
+ assert.ok(calls.filter(a => a[0] === "trackSingle").every(a => a[1] === productConfig.metaPixelId));
  assert.deepEqual(calls.filter(a => a[0] === "trackSingle").map(a => a[2]), ["PageView", "ViewContent"]);
  assert.equal(calls.at(-1)[3].value, 17.99);
 });

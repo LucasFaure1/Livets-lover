@@ -1,7 +1,8 @@
 # Verificación del funnel — 9 octubre 2026
 
-## Actualización: aviso eliminado
-Por pedido del usuario se eliminó el banner y su botón de ajustes. main.js ya no importa ni ejecuta tracking.js, por lo que tampoco los consentimientos guardados activan el Pixel. Los CTA, UTMs y checkout no cambian. La validación del tracking de la landing descrita abajo corresponde a la versión anterior, no a la versión actual. La medición de checkout sigue siendo responsabilidad de Impultienda y no se modificó.
+## Actualización: medición activa sin aviso
+Por pedido explícito del usuario se mantiene eliminado el banner y su botón de ajustes, pero main.js vuelve a ejecutar startPixel automáticamente solo en la landing. PageView y ViewContent se emiten una vez por carga con el ID aprobado 2011892559518551. No se simula consentimiento mediante un comando grant. No se emiten Purchase, InitiateCheckout ni AddToCart desde la landing. CTA y UTMs no cambian. La configuración se asemeja técnicamente a la implementación existente del otro mercado, sin dependencia compartida.
+La comprobación de rechazo/aceptación descrita abajo es histórica y ya no representa la configuración actual. La recepción en Events Manager y la deduplicación CAPI siguen pendientes. La guía de Datatilsynet exige consentimiento válido para estas tecnologías; este cambio pedido no certifica cumplimiento legal.
 
 Landing estática → CTA nativo → Impultienda → Impul Pay / PayPal → entrega.
 No hay API de pagos ni CAPI local. Proyecto Vercel verificado: livets-lover, prj_BJAG97CfrOym9GNhZPxdRTf0q2Cm.
