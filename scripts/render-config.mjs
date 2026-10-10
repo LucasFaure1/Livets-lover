@@ -1,0 +1,12 @@
+import { readFile, writeFile } from "node:fs/promises";
+import { productConfig as config } from "../product-config.js";
+const root = new URL("../", import.meta.url);
+const file = new URL("index.html", root);
+let html = await readFile(file, "utf8");
+html = html.replace(/(<a[^>]*href=")[^"]*("[^>]*data-checkout-link)/g, (_, a, b) => a + config.checkoutUrl + b);
+html = html.replace(/(data-price-display>)[^<]*/g, "$1" + config.priceDisplay);
+for (const pattern of [/(<link rel="canonical" href=")[^"]*/g, /(<meta property="og:url" content=")[^"]*/g]) html = html.replace(pattern, "$1" + config.baseUrl + "/");
+html = html.replace(/(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*/g, "$1" + config.baseUrl + "/img/no/fem-boker-i-en-og-1200x630.jpg?v=nb-real-2");
+await writeFile(file, html);
+await writeFile(new URL("robots.txt", root), "User-agent: *\nAllow: /\nSitemap: " + config.baseUrl + "/sitemap.xml\n");
+await writeFile(new URL("sitemap.xml", root), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>' + config.baseUrl + '/</loc></url></urlset>\n');

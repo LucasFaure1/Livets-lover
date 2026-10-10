@@ -1,5 +1,3 @@
 User-agent: *
-Disallow: /
-
-Sitemap: https://livets-lover.example/sitemap.xml
-
+Allow: /
+Sitemap: https://livets-lover.vercel.app/sitemap.xml

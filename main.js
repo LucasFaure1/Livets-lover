@@ -1,4 +1,6 @@
 import { productConfig } from "./product-config.js";
+import { checkoutHref } from "./checkout.js";
+import { setupConsent } from "./tracking.js";
 
 (() => {
   if (window.__livetsLoverInitialized) return;
@@ -27,7 +29,7 @@ import { productConfig } from "./product-config.js";
     });
     setText(
       ".price-history",
-      productConfig.savingsDisplay || "Norsk pris kunngjøres før lansering",
+      productConfig.savingsDisplay || "Engangsbetaling i amerikanske dollar (USD)",
     );
 
     document.querySelectorAll("[data-support-email]").forEach((link) => {
@@ -35,37 +37,17 @@ import { productConfig } from "./product-config.js";
         link.href = `mailto:${productConfig.supportEmail}`;
         link.textContent = `Kontakt (${productConfig.supportEmail})`;
       } else {
-        link.removeAttribute("href");
-        link.setAttribute("aria-disabled", "true");
-        link.textContent = "Kontaktinformasjon kommer";
+        link.href = productConfig.contactUrl;
+        link.textContent = "Kontakt oss på Instagram";
       }
     });
   }
 
   function setupCheckoutLinks() {
-    const attributionKeys = [
-      "utm_source",
-      "utm_medium",
-      "utm_campaign",
-      "utm_content",
-      "utm_term",
-      "fbclid",
-    ];
     const incoming = new URLSearchParams(window.location.search);
 
     document.querySelectorAll("[data-checkout-link]").forEach((link) => {
-      if (!productConfig.checkoutUrl) {
-        link.href = "#checkout-pending";
-        link.setAttribute("aria-disabled", "true");
-        link.title = "Norsk checkout kobles til før lansering";
-        return;
-      }
-
-      const checkout = new URL(productConfig.checkoutUrl);
-      attributionKeys.forEach((key) => {
-        if (incoming.has(key)) checkout.searchParams.set(key, incoming.get(key));
-      });
-      link.href = checkout.toString();
+      link.href = checkoutHref(productConfig.checkoutUrl, incoming);
       link.removeAttribute("aria-disabled");
       link.removeAttribute("title");
     });
@@ -81,7 +63,19 @@ import { productConfig } from "./product-config.js";
     }, { threshold: 0 }).observe(hero);
   }
 
+  function preserveInternalAttribution() {
+    const incoming = new URLSearchParams(window.location.search);
+    const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"];
+    document.querySelectorAll('a[href="personvern.html"], a[href="kjopsvilkar.html"], a[href="/personvern"], a[href="/"]').forEach((link) => {
+      const url = new URL(link.getAttribute("href"), window.location.href);
+      keys.forEach(key => { if (incoming.has(key)) url.searchParams.set(key, incoming.get(key)); });
+      link.href = url.href;
+    });
+  }
+
   hydrateConfig();
   setupCheckoutLinks();
   setupMobileBuyButton();
+  preserveInternalAttribution();
+  setupConsent();
 })();

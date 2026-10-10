@@ -268,7 +268,7 @@ details p { padding: 18px 24px 0; margin-bottom: 4px; }
   .marquee__track span + span { display: none; }
 }
 
-/* Slovak sample pages. */
+/* Optional sample pages. */
 .sample-pages {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -299,3 +299,13 @@ details p { padding: 18px 24px 0; margin-bottom: 4px; }
 @media (max-width: 767px) {
   .sample-pages { grid-template-columns: 1fr; max-width: 440px; margin-inline: auto; }
 }
+/* Optional measurement controls do not change the landing layout. */
+.consent-panel[hidden] { display: none; }
+.consent-panel { position: fixed; z-index: 100; bottom: calc(12px + env(safe-area-inset-bottom)); left: 12px; right: 12px; max-width: 620px; padding: 20px; border-radius: 16px; background: white; color: #1e2a5a; box-shadow: 0 8px 36px #1e2a5a40; border: 1px solid #d9dfed; }
+.consent-panel p { margin: 0 0 14px; font-size: 15px; }
+.consent-panel div { display: flex; gap: 12px; }
+.consent-panel button { flex: 1; font: inherit; font-weight: 800; padding: 10px; border: 2px solid #1e2a5a; border-radius: 10px; background: #fff; color: #1e2a5a; cursor: pointer; }
+.consent-settings { background: none; border: 0; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
+.testimonial { margin: 0; }
+.testimonial blockquote { margin: 0 0 20px; }
+.testimonial figcaption span { display: block; }

@@ -2,11 +2,13 @@
   "name": "livets-lover-no",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "check": "node scripts/check.mjs",
     "test": "node --test scripts/checkout.test.mjs",
-    "build": "node --check main.js && node --check product-config.js && npm run check && npm test"
+    "lint": "node --check main.js && node --check product-config.js && node --check checkout.js && node --check tracking.js",
+    "build": "node scripts/render-config.mjs && npm run lint && npm run check && npm test"
   }
 }
 
