@@ -15,5 +15,5 @@ export const productConfig = Object.freeze({
   savingsDisplay: "Du sparer 172 kr",
   metaPixelId: "2011892559518551",
   contactUrl: "https://www.instagram.com/livets.lover/",
-  supportEmail: "",
+  supportEmail: "prawazycia2026@gmail.com",
 });
